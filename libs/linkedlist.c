@@ -11,6 +11,7 @@ static size_t nSize = 0;
 
 void init()
 {
+	isInit = true;
 	_head = malloc(sizeof(Node));
 	_tail = malloc(sizeof(Node));
 	_cur_node = _head;
@@ -32,11 +33,11 @@ size_t size()
 void print()
 {
 	printf("LinkedList [ ");
-	*Node now = first();
+	Node* now = first();
 	for(int i = 0; i<size();i++)
 	{
 		printf(now->data);
-		printf(' ');
+		printf(" ");
 		now = now->next;
 	}
 	printf("]\n");
@@ -49,7 +50,7 @@ void print_file(FILE* stream)
 
 void clear()
 {
-	*Node now = first();
+	Node* now = first();
 	for(int i = 0; i<size();i++)
 	{	
 		now = now->next;
@@ -57,22 +58,20 @@ void clear()
 	}
 }
 
-Node* append_left(size_t n,char new_data[n])
+Node* append_left(size_t n,char new_data[])
 {
 	Node* new = malloc(sizeof(Node));
+	new->data = new_data;
 	insert_after(_head,new);
 }
 
 
 Node* insert_after(Node* cur_node,Node* new_node)
 {	
-	if(!isInit)
-		init();
-
 	if(cur_node == _tail)
 		return new_node;
 	
-	size++;
+	nSize++;
 	new_node->next = cur_node->next;
 	new_node->prev = cur_node->prev;
 	cur_node->next = new_node;
@@ -83,7 +82,10 @@ Node* insert_after(Node* cur_node,Node* new_node)
 
 Node* append(size_t n,char new_data[n])
 {
+	if(!isInit)
+		init();
 	Node* new = malloc(sizeof(Node));
+	new->data=new_data;
 	insert_after(_tail->prev,new);
 }
 
@@ -92,10 +94,11 @@ Node* delete_node(Node* cur_node)
 	if(cur_node == _head || cur_node == _tail)
 		return _tail;
 	
-	result = cur_node->next;
+	Node* result = cur_node->next;
 	cur_node->prev->next = cur_node->next;
 	cur_node->next->prev = cur_node->prev;
 	free(cur_node);
+	nSize--;
 	return result;
 }
 
@@ -105,7 +108,7 @@ Node* delete(char* data)
 	for(int i = 0;i<size();i++)
 	{
 		if(strcmp(now->data,data))
-			return delete(now);
+			return delete_node(now);
 		now = now->next;
 	}
 	return _tail;
