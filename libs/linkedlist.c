@@ -80,7 +80,7 @@ Node* insert_after(Node* cur_node,Node* new_node)
 	return new_node;
 }
 
-Node* append(size_t n,char new_data[n])
+Node* append(size_t n,char new_data[])
 {
 	if(!isInit)
 		init();
@@ -118,7 +118,7 @@ Node* get_node(size_t index)
 {
 	if(index >= size())
 		return _tail;
-	
+	Node* now = first();	
 	for(int i = 0;i<index;i++)
 	{
 		now = now->next;
@@ -145,16 +145,16 @@ Node* last()
 
 Node* next()
 {
-	Node* result = _cul_node->next;
-	if(_cul_node == _tail)
+	Node* result = _cur_node->next;
+	if(_cur_node == _tail)
 		result = _tail->prev;
 	return result;
 }
 
 Node* prev()
 {
-	Node* result = _cul_node->prev;
-	if(_cul_node == _head)
+	Node* result = _cur_node->prev;
+	if(_cur_node == _head)
 		result = _head->prev;
 	return result;
 } 
