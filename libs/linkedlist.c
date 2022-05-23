@@ -44,8 +44,17 @@ void print()
 }
 
 void print_file(FILE* stream)
-{
-
+{	
+	Node* now = last();
+	char s1[10];
+	sprintf(s1,"%d\n",size());
+	fputs(s1,stream)
+	for(int i = 0; i<size();i++)
+	{
+		fputs(now->data,stream);
+		fputs("\n",stream);
+		now = now->prev;
+	}
 }
 
 void clear()
@@ -73,7 +82,7 @@ Node* insert_after(Node* cur_node,Node* new_node)
 	
 	nSize++;
 	new_node->next = cur_node->next;
-	new_node->prev = cur_node->prev;
+	new_node->prev = cur_node;
 	cur_node->next = new_node;
 	new_node->next->prev = new_node;
 
