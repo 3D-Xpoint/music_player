@@ -14,5 +14,7 @@ void read_file(char* file_name){
 }
 
 void write_file(char* file_name){
-
+        FILE* p = fopen("", "w");
+        print_file(p);
+        fclose(p);
 }
